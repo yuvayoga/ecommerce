@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li> <!-- Cart count will be updated by JS -->
+            </ul>
+        </nav>
+    </header>
+
+    <section class="cart">
+        <h2>Your Cart</h2>
+        <ul id="cart-items">
+            <!-- Cart items will be listed here -->
+        </ul>
+        <p>Total: $<span id="total-price">0</span></p>
+        <button id="checkoutBtn">Checkout</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Simple E-Commerce Website</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        window.onload = function() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalPrice = 0;
+
+            const cartItemsContainer = document.getElementById('cart-items');
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.productName} - $${item.price}`;
+                cartItemsContainer.appendChild(li);
+                totalPrice += item.price;
+            });
+
+            document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+            
+            document.getElementById("checkoutBtn").addEventListener("click", function() {
+                alert('Proceeding to checkout...');
+                window.location.href = 'checkout.html'; // Redirecting to checkout page
+            });
+        };
+    </script>
+</body>
+</html>

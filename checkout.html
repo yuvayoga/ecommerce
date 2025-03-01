@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+
+    <button id="checkoutBtn">Checkout</button>
+
+    <!-- Container to display the QR code -->
+    <div id="qrContainer" style="display:none;">
+        <h3>Scan this QR Code to complete your purchase:</h3>
+        <div id="qrcode"></div>
+    </div>
+
+    <script>
+        document.getElementById("checkoutBtn").addEventListener("click", function() {
+            // Get cart data from localStorage
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let totalPrice = 0;
+
+            // Build the cart details string for the QR code
+            let cartDetails = cart.map(item => `${item.productName}: $${item.price}`).join(", ");
+            cart.forEach(item => totalPrice += item.price);
+
+            // Sample payment link with cart details (replace with your actual payment gateway URL)
+            var qrData = `https://your-payment-link.com/complete?cart=${encodeURIComponent(cartDetails)}&total=${totalPrice.toFixed(2)}`;
+
+            // Show the QR code container
+            document.getElementById("qrContainer").style.display = "block";
+
+            // Generate and display the QR code
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: qrData,
+                width: 128,
+                height: 128
+            });
+        });
+    </script>
+
+</body>
+</html>
